@@ -1,0 +1,19 @@
+import pandas as pd
+
+# Assuming the dataset is stored in a file called 'data.csv'
+df = pd.read_csv('data.csv')
+race_counts = df['race'].value_counts()
+average_age_men = df[df['sex'] == 'Male']['age'].mean()
+percentage_bachelors = (df[df['education'] == 'Bachelors'].shape[0] / df.shape[0]) * 100
+higher_education = df[df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])]
+percentage_higher_education_rich = (higher_education[higher_education['salary'] == '>50K'].shape[0] / higher_education.shape[0]) * 100
+lower_education = df[~df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])]
+percentage_lower_education_rich = (lower_education[lower_education['salary'] == '>50K'].shape[0] / lower_education.shape[0]) * 100
+min_work_hours = df['hours-per-week'].min()
+num_min_workers = df[df['hours-per-week'] == min_work_hours]
+percentage_min_workers_rich = (num_min_workers[num_min_workers['salary'] == '>50K'].shape[0] / num_min_workers.shape[0]) * 100
+country_counts = df['native-country'].value_counts()
+country_rich_counts = df[df['salary'] == '>50K']['native-country'].value_counts()
+highest_earning_country = (country_rich_counts / country_counts * 100).idxmax()
+highest_earning_percentage = (country_rich_counts / country_counts * 100).max()
+top_IN_occupation = df[(df['native-country'] == 'India') & (df['salary'] == '>50K')]['occupation'].value_counts().idxmax()
